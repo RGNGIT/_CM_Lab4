@@ -27,7 +27,11 @@ namespace _CM_Lab4
 
         private void buttonDoCalc_Click(object sender, EventArgs e)
         {
-            double[] kek = new Zeidel(Mtr, 0.001).GetZeidelSolve;
+            double[] kek = new Zeidel(Mtr, 0.0001).GetZeidelSolve;
+            foreach(var i in kek)
+            {
+                Console.WriteLine(i);
+            }
         }
     }
 }
