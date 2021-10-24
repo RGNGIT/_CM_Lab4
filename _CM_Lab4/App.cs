@@ -17,21 +17,21 @@ namespace _CM_Lab4
             InitializeComponent();
         }
 
-        List<List<double>> Mtr = new List<List<double>>() 
+        List<List<double>> Mtr = new List<List<double>>()
         {
-            new List<double>() { -1, 0.28f, -0.17f, 0.06f, -21 },
-            new List<double>() { 0.52f, -1, 0.12f, 0.17f, 117 },
-            new List<double>() { 0.17f, -0.18f, 0, -0.79f, 0.81 },
-            new List<double>() { 0.11f, 0.22f, 0.03f, -0.95f, -0.72f}
+            new List<double>() { -1, 0.28f, -0.17f, 0.06f },
+            new List<double>() { 0.52f, -1, 0.12f, 0.17f },
+            new List<double>() { 0.17f, -0.18f, 1, -0.79f },
+            new List<double>() { 0.11f, 0.22f, 0.03f, -0.95f }
+        };
+        List<double> Equal = new List<double>()
+        {
+            -21, 117, 0.81f, -0.72f
         };
 
         private void buttonDoCalc_Click(object sender, EventArgs e)
         {
-            double[] kek = new Zeidel(Mtr, 0.0001).GetZeidelSolve;
-            foreach(var i in kek)
-            {
-                Console.WriteLine(i);
-            }
+            double[] kek = new Zeidel(Mtr, Equal, 0.001).GetZeidelSolve;
         }
     }
 }
