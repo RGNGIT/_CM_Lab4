@@ -15,6 +15,8 @@ namespace _CM_Lab4
         public App()
         {
             InitializeComponent();
+            chart.Series.Clear();
+            chart.Titles.Add("Скорость сходимости");
         }
 
         List<List<double>> Mtr = new List<List<double>>()
@@ -29,9 +31,28 @@ namespace _CM_Lab4
             -21, 117, 0.81f, -0.72f
         };
 
+        List<double> Epsilon = new List<double>()
+        {
+            0.01,
+            0.001,
+            0.0001,
+            0.00001,
+            0.000001
+        };
+
         private void buttonDoCalc_Click(object sender, EventArgs e)
         {
-            double[] kek = new Zeidel(Mtr, Equal, 0.001).GetZeidelSolve;
+            labelOutput.Text = string.Empty;
+            foreach(var i in Epsilon)
+            {
+                double[] Res = new Zeidel(this, Mtr, Equal, i).GetZeidelSolve;
+                labelOutput.Text += $"Корни при точности {i}\n";
+                foreach (var j in Res)
+                {
+                    labelOutput.Text += j.ToString() + '\n';
+                }
+            }
+            buttonDoCalc.Visible = false;
         }
     }
 }

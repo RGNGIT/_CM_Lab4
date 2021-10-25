@@ -11,12 +11,14 @@ namespace _CM_Lab4
         List<List<double>> Mtr;
         List<double> Equal;
         double Eps;
+        App app;
 
-        public Zeidel(List<List<double>> Mtr, List<double> Equal, double Eps)
+        public Zeidel(App app, List<List<double>> Mtr, List<double> Equal, double Eps)
         {
             this.Mtr = Mtr;
             this.Equal = Equal;
             this.Eps = Eps;
+            this.app = app;
         }
 
         public double[] GetZeidelSolve
@@ -30,7 +32,7 @@ namespace _CM_Lab4
         double FindMaxAbs(List<double> currentRes, List<double> previousRes)
         {
             double max = 0;
-            for (int i = 0; i < currentRes.Count; i++)
+            for (int i = 0; i < Mtr.Count; i++)
             {
                 if (Math.Abs(currentRes[i] - previousRes[i]) > max)
                 {
@@ -42,23 +44,47 @@ namespace _CM_Lab4
 
         double ClownFormula(int i, List<double> currentRes, List<double> previousRes)
         {
-            return 0;
+            double Res0 = Equal[i] / Mtr[i][i];
+            double Res1 = 0;
+            for(int j = 0; j < i; j++)
+            {
+                Res1 += (Mtr[i][j] / Mtr[i][i]) * currentRes[j];
+            }
+            double Res2 = 0;
+            for(int j = i + 1; j < Mtr.Count; j++)
+            {
+                Res2 += (Mtr[i][j] / Mtr[i][i]) * previousRes[j];
+            }
+            return Res0 - Res1 - Res2;
+        }
+
+        List<double> ListCloner(List<double> ToClone)
+        {
+            List<double> Clone = new List<double>();
+            foreach(var i in ToClone)
+            {
+                Clone.Add(i);
+            }
+            return Clone;
         }
 
         double[] DoZeidel()
         {
-            List<double> currentRes = Equal;
-            List<double> previousRes = Equal;
+            List<double> currentRes = ListCloner(Equal);
+            List<double> previousRes;
+            int k = 0;
             do
             {
+                previousRes = ListCloner(currentRes);
                 for (int i = 0; i < Mtr.Count; i++)
                 {
                     currentRes[i] = ClownFormula(i, currentRes, previousRes);
                 }
-                previousRes = currentRes;
+                k++;
             }
-            while (FindMaxAbs(currentRes, previousRes) <= Eps);
-            return previousRes.ToArray();
+            while (FindMaxAbs(currentRes, previousRes) > Eps);
+            app.chart.Series.Add($"Точность {Eps}").Points.AddXY(Eps, k);
+            return currentRes.ToArray();
         }
     }
 }
